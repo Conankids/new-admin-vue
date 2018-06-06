@@ -30,8 +30,8 @@ if (arguments.length) {
 		return true
 	})
 }
-
 if (!completeModule.length && process.argv[3] !== 'test/unit/karma.conf.js') {
+	console.log('没有配置项目...')
 	process.exit(0)
 }
 
