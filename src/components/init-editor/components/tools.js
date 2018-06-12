@@ -56,6 +56,9 @@ export const parseAddrUrl = {
 		return url
 			.replace(/my\.tv\.sohu\.com\/[\w]+\/([\d]+)\/([\d]+)\.shtml.*$/i, 'tv.sohu.com/upload/static/share/share_play.html#$2_$1_0_9001_0')
 			.replace(/share\.vrs\.sohu\.com\/([\w]+)\/v\.swf.*?plid=(\w+).*/i, 'tv.sohu.com/upload/static/share/share_play.html#$1_$2_0_2_1')
+	},
+	parse_bilibili_com(url) {
+		return url
 	}
 }
 
@@ -71,7 +74,8 @@ export function convertUrlToFlash(url) {
 	;[
 		'.youku.com',//优酷视频
 		'.qq.com',//腾讯视频
-		'.sohu.com'//搜狐视频
+		'.sohu.com',//搜狐视频
+		'.bilibili.com'//bilibili
 	].forEach((item) => {
 		if (parseUrlObj.hostname.indexOf(item) > -1) {
 			parseed_url = parseAddrUrl['parse' + item.replace(/\.(\w)/g, '_$1')](url)
@@ -93,6 +97,9 @@ export function convertUrlToIframe(url) {
 	} else if (url.match('youku.com')) {
 		url.match(/https?:\/\/player.youku.com\/player.php\/sid\/(.+)\/v.swf/)
 		url = 'http://player.youku.com/embed/' + RegExp.$1
+	} else if (url.match("bilibili.com")) {
+		url.match(/https?:\/\/(?:www\.)?bilibili.com\/video\/av([\da-zA-Z]+)/);
+		url = 'http://player.bilibili.com/player.html?aid=' + RegExp.$1;
 	}
 	return url
 }
