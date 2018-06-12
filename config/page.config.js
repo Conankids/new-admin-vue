@@ -57,13 +57,66 @@ module.exports = [
 	{
 		name: 'article2',
 		main: './src/pages/article2/main.js',
+		output: {
+			libraryTarget: 'umd',
+			library: '[name]',
+		},
 		options: {
 			filename: path.resolve(__dirname, '../../zdm/protected/modules/admin2/views/article/_editor.php'),
-			template: getTplPath('article2'),
+			templateContent: function (param) {
+				let htmlWebpackPlugin = param.htmlWebpackPlugin
+				let cssStr = []
+				for (var css in htmlWebpackPlugin.files.css) {
+					cssStr.push(`<link href="${htmlWebpackPlugin.files.css[css]}" rel="stylesheet">`)
+				}
+				let UEditor = ''
+				let article2 = ''
+				let manifest = ''
+				let vendor = ''
+				for (var chunk in htmlWebpackPlugin.files.chunks) {
+					if (htmlWebpackPlugin.files.chunks[chunk].entry.indexOf('UEditor') > -1) {
+						UEditor = htmlWebpackPlugin.files.chunks[chunk].entry
+					}
+					if (htmlWebpackPlugin.files.chunks[chunk].entry.indexOf('article2') > -1) {
+						article2 = htmlWebpackPlugin.files.chunks[chunk].entry
+					}
+					if (htmlWebpackPlugin.files.chunks[chunk].entry.indexOf('manifest') > -1) {
+						manifest = htmlWebpackPlugin.files.chunks[chunk].entry
+					}
+					if (htmlWebpackPlugin.files.chunks[chunk].entry.indexOf('vendor') > -1) {
+						vendor = htmlWebpackPlugin.files.chunks[chunk].entry
+					}
+				}
+
+				return `
+					${cssStr.join('')}
+					<script>
+						require.config({
+							paths: {
+								'UEditor': '${UEditor.replace(/\.js$/i, '')}',
+								'product': '${article2.replace(/\.js$/i, '')}'
+							},
+							shim: {
+								'UEditor': {
+									deps: [
+										'${manifest}',
+										'${vendor}'
+									]
+								},
+								'product': {
+									deps: ['UEditor']
+								}
+							}
+						});
+					</script>
+				`
+
+			},
+			inject: false,
 			minify: {
 				removeComments: true,
 				collapseWhitespace: true,
-				removeAttributeQuotes: false
+				removeAttributeQuotes: false,
 			},
 			chunksSortMode,
 		},
