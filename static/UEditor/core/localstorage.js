@@ -100,53 +100,101 @@ window.LocalStorage = UE.LocalStorage = (function () {
 
 })();
 
-(function () {
+// (function () {
+//
+// 	function isArray(a) {
+// 		return Object.prototype.toString.call(a) === "[object Array]";
+// 	}
+//
+// 	var ROOTKEY = 'ueditor_preference';
+// 	var ROOTKEY_TIME = 'ueditor_preference_time';
+//
+// 	UE.Editor.prototype.setPreferences = function (key, value) {
+// 		var num = 5;
+// 		var data = utils.str2json(LocalStorage.getLocalData(ROOTKEY) || '{}');
+// 		var time = utils.str2json(LocalStorage.getLocalData(ROOTKEY_TIME) || '{}');
+// 		data = typeof data == 'object' ? data : {};
+// 		time = typeof time == 'object' ? time : {};
+// 		for (var i in time) {
+// 			if ((time[i] || 0) + 7 * 24 * 60 * 60 < Math.round(new Date().getTime() / 1000)) {
+// 				delete data[i]
+// 			}
+// 		}
+// 		num -= 1;
+// 		if (!isArray(data[key])) {
+// 			data[key] = [];
+// 		} else if (data[key].length > num) {
+// 			data[key].splice(0, data[key].length - num);
+// 		}
+// 		time[key] = Math.round(new Date().getTime() / 1000);
+// 		data[key].push(value);
+// 		if (data) {
+// 			LocalStorage.saveLocalData(ROOTKEY, utils.json2str(data));
+// 			LocalStorage.saveLocalData(ROOTKEY_TIME, utils.json2str(time));
+// 		}
+// 	};
+//
+// 	UE.Editor.prototype.getPreferences = function (key) {
+// 		var data = LocalStorage.getLocalData(ROOTKEY);
+// 		var cache_data = [];
+// 		if (data && (data = utils.str2json(data))) {
+// 			cache_data = key ? data[key] : [];
+// 		}
+// 		if (isArray(cache_data)) {
+// 			return cache_data.length ? cache_data[cache_data.length - 1] : null;
+// 		}
+// 		return null;
+// 	};
+//
+// 	UE.Editor.prototype.removePreferences = function (key) {
+// 		var data = LocalStorage.getLocalData(ROOTKEY);
+// 		if (data && (data = utils.str2json(data))) {
+// 			data[key] = undefined;
+// 			delete data[key]
+// 		}
+// 		data && LocalStorage.saveLocalData(ROOTKEY, utils.json2str(data));
+// 	};
+//
+// })();
 
-	function isArray(a) {
-		return Object.prototype.toString.call(a) === "[object Array]";
-	}
 
-	var ROOTKEY = 'ueditor_preference';
+(function() {
+	var ROOTKEY = "ueditor_preference";
 
-	UE.Editor.prototype.setPreferences = function (key, value) {
-		var num = 5;
-		var data = utils.str2json(LocalStorage.getLocalData(ROOTKEY) || '{}');
-		data = typeof data == 'object' ? data : {};
-		for (var i in data) {
-			var r = i.split('TTT|TTT')
-			if (r.length < 2 || r[1] + 7 * 24 * 60 * 60 < Math.round(new Date().getTime() / 1000)) {
-				delete data[i]
-			}
+	UE.Editor.prototype.setPreferences = function(key, value) {
+		var obj = {};
+		if (utils.isString(key)) {
+			obj[key] = value;
+		} else {
+			obj = key;
 		}
-		num -= 1;
-		if (!isArray(data[key])) {
-			data[key] = [];
-		} else if (data[key].length > num) {
-			data[key].splice(0, data[key].length - num);
+		var data = LocalStorage.getLocalData(ROOTKEY);
+		if (data && (data = utils.str2json(data))) {
+			utils.extend(data, obj);
+		} else {
+			data = obj;
 		}
-		data[key].push(value);
 		data && LocalStorage.saveLocalData(ROOTKEY, utils.json2str(data));
 	};
 
-	UE.Editor.prototype.getPreferences = function (key) {
+	UE.Editor.prototype.getPreferences = function(key) {
 		var data = LocalStorage.getLocalData(ROOTKEY);
-		var cache_data = [];
 		if (data && (data = utils.str2json(data))) {
-			cache_data = key ? data[key] : [];
-		}
-		if (isArray(cache_data)) {
-			return cache_data.length ? cache_data[cache_data.length - 1] : null;
+			return key ? data[key] : data;
 		}
 		return null;
 	};
 
-	UE.Editor.prototype.removePreferences = function (key) {
+	UE.Editor.prototype.removePreferences = function(key) {
 		var data = LocalStorage.getLocalData(ROOTKEY);
 		if (data && (data = utils.str2json(data))) {
 			data[key] = undefined;
-			delete data[key]
+			delete data[key];
 		}
 		data && LocalStorage.saveLocalData(ROOTKEY, utils.json2str(data));
 	};
-
 })();
+
+
+
+
