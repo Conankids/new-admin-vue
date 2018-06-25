@@ -36,6 +36,13 @@
       }
     }
   }
+
+  .dialog__input-tips {
+    color: #999;
+    font-size: 14px;
+    text-align: right;
+    padding-right: 20px;
+  }
 </style>
 
 <template>
@@ -61,7 +68,7 @@
           </div>
         </div>
       </div>
-
+      <div class="dialog__input-tips">小程序内跳转链接需以<span class="red">https://</span>开头，且属于<span class="red">https://api.jiguo.com</span>下域名</div>
       <div class="dialog__bottom-wrap" slot="bottom">
         <div class="dialog__bottom gary" @click="close">关闭</div>
         <div class="dialog__bottom" :class="urlSuccess?'red':'gary'" @click="insertLink">插入链接</div>
@@ -70,83 +77,83 @@
   </transition>
 </template>
 <script>
-  import mixins from './mixins'
+	import mixins from './mixins'
 
-  export default {
-    mixins: [mixins],
-    data() {
-      return {
-        description: '',
-        link: 'http://',
-        urlSuccess: false
-      }
-    },
-    watch: {
-      inner_visibile(newVal) {
-        if (newVal && this.$parent.editor) {
-          var me = this.$parent.editor
-          var range = me.selection.getRange()
-          var rangeCommon = range.getCommonAncestor()
-          var rangeLink = domUtils.findParentByTagName(rangeCommon, 'a', true)
-          if (rangeLink) {
-            range.setStartBefore(rangeLink)
-            range.setEndAfter(rangeLink)
-            this.link = rangeLink.getAttribute('href')
-            this.description = rangeLink.getAttribute('title')
-          }
-          var range = me.selection.getRange()
+	export default {
+		mixins: [mixins],
+		data() {
+			return {
+				description: '',
+				link: 'http://',
+				urlSuccess: false
+			}
+		},
+		watch: {
+			inner_visibile(newVal) {
+				if (newVal && this.$parent.editor) {
+					var me = this.$parent.editor
+					var range = me.selection.getRange()
+					var rangeCommon = range.getCommonAncestor()
+					var rangeLink = domUtils.findParentByTagName(rangeCommon, 'a', true)
+					if (rangeLink) {
+						range.setStartBefore(rangeLink)
+						range.setEndAfter(rangeLink)
+						this.link = rangeLink.getAttribute('href')
+						this.description = rangeLink.getAttribute('title')
+					}
+					var range = me.selection.getRange()
 
-          var fragment = range.cloneContents()
-          var node = document.createElement("div")
-          node.appendChild(fragment)
-          this.description = node.innerText
-          this.range = range
-          this.editor = me
-        }
-      },
-      link(newVal) {
-        this.urlSuccess = /^https?:\/\/.+/i.test(newVal)
-      }
-    },
-    methods: {
-      insertLink() {
-        if (!this.urlSuccess) {
-          return
-        }
-        if (!this.range || !this.editor) {
-          return
-        }
+					var fragment = range.cloneContents()
+					var node = document.createElement("div")
+					node.appendChild(fragment)
+					this.description = node.innerText
+					this.range = range
+					this.editor = me
+				}
+			},
+			link(newVal) {
+				this.urlSuccess = /^https?:\/\/.+/i.test(newVal)
+			}
+		},
+		methods: {
+			insertLink() {
+				if (!this.urlSuccess) {
+					return
+				}
+				if (!this.range || !this.editor) {
+					return
+				}
 
-        var fragment = this.range.extractContents()
-        var A = this.range.document.createElement('a')
-        A.setAttribute('href', this.link)
-        A.setAttribute('title', this.description)
+				var fragment = this.range.extractContents()
+				var A = this.range.document.createElement('a')
+				A.setAttribute('href', this.link)
+				A.setAttribute('title', this.description)
 				A.setAttribute('class', 'editor-link-a-href')
-        A.innerHTML = fragment.textContent
-        if(this.range.startContainer.tagName=='BODY'){
-        	var p = this.range.document.createElement('p')
+				A.innerHTML = fragment.textContent
+				if (this.range.startContainer.tagName == 'BODY') {
+					var p = this.range.document.createElement('p')
 					p.appendChild(A)
 					this.range.insertNode(p)
-					if(
+					if (
 						p.previousElementSibling &&
-						p.previousElementSibling.tagName=='P' &&
-            p.previousElementSibling.textContent==''
-          ){
+						p.previousElementSibling.tagName == 'P' &&
+						p.previousElementSibling.textContent == ''
+					) {
 						p.parentElement.removeChild(p.previousElementSibling)
-						if(
+						if (
 							p.nextElementSibling &&
-							p.nextElementSibling.tagName=='P' &&
-							p.nextElementSibling.textContent==''
-						){
+							p.nextElementSibling.tagName == 'P' &&
+							p.nextElementSibling.textContent == ''
+						) {
 							p.parentElement.removeChild(p.nextElementSibling)
 						}
-          }
-        }else{
+					}
+				} else {
 					this.range.insertNode(A)
-        }
+				}
 				this.editor.fireEvent('contentchange')
-        this.close()
-      }
-    }
-  }
+				this.close()
+			}
+		}
+	}
 </script>
