@@ -1,3 +1,4 @@
+import {Base64} from 'js-base64'
 export function unhtmlForUrl(str, reg) {
 	return str ? str.replace(reg || /[<">']/g, function (a) {
 		return {
@@ -54,8 +55,13 @@ export const parseAddrUrl = {
 	},
 	parse_sohu_com(url) {
 		return url
+      .replace(/tv\.sohu\.com\/v\/([\w\W]+)\.html.*$/i, function (...arg) {
+        const vUrl = `my.tv.sohu.com/${Base64.decode(arg[1])}`
+        return vUrl
+      })
 			.replace(/my\.tv\.sohu\.com\/[\w]+\/([\d]+)\/([\d]+)\.shtml.*$/i, 'tv.sohu.com/upload/static/share/share_play.html#$2_$1_0_9001_0')
 			.replace(/share\.vrs\.sohu\.com\/([\w]+)\/v\.swf.*?plid=(\w+).*/i, 'tv.sohu.com/upload/static/share/share_play.html#$1_$2_0_2_1')
+      .replace(/share\.vrs\.sohu\.com\/my\/v\.swf.*?id=(\w+).*/i, "tv.sohu.com/upload/static/share/share_play.html#$1_9492279_0_9001_0")
 	},
 	parse_bilibili_com(url) {
 		return url

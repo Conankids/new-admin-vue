@@ -34,7 +34,8 @@ module.exports = [
 		name: 'article',
 		main: './src/pages/article/main.js',
 		options: {
-			filename: path.resolve(__dirname, '../../zdm/protected/modules/admin/views/article/_editor.php'),
+			// filename: path.resolve(__dirname, '../../zdm/protected/modules/admin/views/article/_editor.php'),
+			filename: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/zdm/protected/modules/admin/views/article/_editor.php'),
 			template: getTplPath('article'),
 			minify: {
 				removeComments: true,
@@ -62,7 +63,8 @@ module.exports = [
 			library: '[name]',
 		},
 		options: {
-			filename: path.resolve(__dirname, '../../zdm/protected/modules/admin2/views/article/_editor.php'),
+			// filename: path.resolve(__dirname, '../../zdm/protected/modules/admin2/views/article/_editor.php'),
+			filename: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/zdm/protected/modules/admin2/views/article/_editor.php'),
 			templateContent: function (param) {
 				let htmlWebpackPlugin = param.htmlWebpackPlugin
 				let cssStr = []
@@ -134,7 +136,8 @@ module.exports = [
 			library: '[name]',
 		},
 		options: {
-			filename: path.resolve(__dirname, '../../zdm/protected/modules/admin/views/product/_editor.php'),
+			// filename: path.resolve(__dirname, '../../zdm/protected/modules/admin/views/product/_editor.php'),
+			filename: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/zdm/protected/modules/admin/views/product/_editor.php'),
 			template: getTplPath('product'),
 			minify: {
 				removeComments: true,

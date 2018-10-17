@@ -6,7 +6,8 @@ module.exports = {
   page: require('./page.config'),
   build: {
     env: require('./prod.env'),
-		assetsRoot: path.resolve(__dirname, '../../cdn/admin@2.0'),
+		// assetsRoot: path.resolve(__dirname, '../../cdn/admin@2.0'),
+		assetsRoot: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/cdn/admin@2.0'),
 		assetsSubDirectory: '',
 		assetsPublicPath: 'http://cdn.jiguo.com/admin@2.0/',
     productionSourceMap: true,

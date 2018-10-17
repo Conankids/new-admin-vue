@@ -95,7 +95,7 @@
 <template>
   <transition name="window__modal">
     <dialog-base
-      v-show="inner_visibile"
+      v-if="inner_visibile"
       @mousedown="mousedown=true"
       @mouseup="mousedown=false"
       @close="close"
@@ -103,7 +103,7 @@
     >
       <div class="video__wrap">
         <div class="video__input-box">
-          <input v-model="inner_videoUrl" placeholder="粘贴视频地址并键入回车，目前支持优酷、腾讯视频、搜狐视频的视频链接">
+          <input v-model="inner_videoUrl" placeholder="粘贴视频地址并键入回车，目前支持优酷、腾讯视频、搜狐视频、哔哩哔哩的视频链接">
         </div>
         <div class="video__body">
           <div class="previewvideo__msg">
