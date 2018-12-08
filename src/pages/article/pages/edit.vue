@@ -3,6 +3,7 @@
     name="article[message]"
     public-key="ueditorContentBox"
     :content="content"
+    :userInfo="userInfo"
     @editor-ready="editorReady"
   />
 </template>
@@ -14,7 +15,8 @@
 	export default {
 		data() {
 			return {
-				content: process.env.NODE_ENV !== 'production' ? content : window.ueditorContent
+				content: process.env.NODE_ENV !== 'production' ? content : window.ueditorContent,
+        userInfo: process.env.NODE_ENV !== 'production' ? {groupName: '玩家', userName: '极果小编'} : window.userInfo
 			}
 		},
 		components: {
