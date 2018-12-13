@@ -70,8 +70,12 @@
         this.fileList.forEach((item, index) => {
           if (item.id == file.id) {
             item.respon = JSON.parse(respon)
-            var src_arr = item.respon.url.match(/https?:\/\/s1\.jiguo\.com\/([\w\-]+)\/?/i);
-            item.respon.field = src_arr ? src_arr[1] : ''
+            if(item.respon.state == 'SUCCESS'){
+              var src_arr = item.respon.url.match(/https?:\/\/s1\.jiguo\.com\/([\w\-]+)\/?/i);
+              item.respon.field = src_arr ? src_arr[1] : ''
+            }else{
+              item.error = true
+            }
             this.fileList[index] = item
           }
         })

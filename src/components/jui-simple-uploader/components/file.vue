@@ -129,7 +129,11 @@
         const isError = this.error
         const paused = this.paused
         if (isComplete) {
-          return 'success'
+          if(this.file.respon.state == 'SUCCESS'){
+            return 'success'
+          }else{
+            return this.file.respon.state
+          }
         } else if (isError) {
           return 'error'
         } else if (isUploading) {
