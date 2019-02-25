@@ -108,7 +108,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="ruleForm.cover" :src="`http://s1.jiguo.com/${ruleForm.cover}/230x230`"/>
+          <img v-if="ruleForm.cover" :src="`//s2.jiguo.com/${ruleForm.cover}/230x230`"/>
           <i v-else class="el-icon-upload"></i>
         </el-upload>
       </el-form-item>
@@ -418,7 +418,7 @@
 				this.$refs[formName].resetFields();
 			},
 			handleAvatarSuccess(res, file) {
-				var src_arr = res.url.match(/https?:\/\/s1\.jiguo\.com\/([\w\-]+)\/?/i);
+				var src_arr = res.url.match(/https?:\/\/s[1|2]\.jiguo\.com\/([\w\-]+)\/?/i);
 				this.ruleForm.cover = src_arr ? src_arr[1] : ''
 			},
 			beforeAvatarUpload(file) {

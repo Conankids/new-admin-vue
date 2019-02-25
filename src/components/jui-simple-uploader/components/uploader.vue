@@ -71,7 +71,7 @@
           if (item.id == file.id) {
             item.respon = JSON.parse(respon)
             if(item.respon.state == 'SUCCESS'){
-              var src_arr = item.respon.url.match(/https?:\/\/s1\.jiguo\.com\/([\w\-]+)\/?/i);
+              var src_arr = item.respon.url.match(/https?:\/\/s[1|2]\.jiguo\.com\/([\w\-]+)\/?/i);
               item.respon.field = src_arr ? src_arr[1] : ''
             }else{
               item.error = true

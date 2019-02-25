@@ -12,7 +12,7 @@
     <li v-for="item in data" :id="`product-${item.id}`">
       <input type="hidden" name="productlinkid[]" :value="item.productLinkId"/>
       <div class="Z-list-image Z-left">
-        <img :src="`http://s1.jiguo.com/${item.cover}/640`" />
+        <img :src="`//s2.jiguo.com/${item.cover}/640`" />
       </div>
       <div class="Z-list-desc">
         <div class="Z-list-title">

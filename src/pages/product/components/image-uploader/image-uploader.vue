@@ -49,13 +49,13 @@
                 <div class="item-view" @click="selectedItem(`success-img-${props.file.id}`,props.file)">
                   <img
                     :ref="`success-img-${props.file.id}`"
-                    :src="`http://s1.jiguo.com/${props.respon.field}/logo`"
+                    :src="`//s2.jiguo.com/${props.respon.field}/logo`"
                     @load="successFirstLoadImage(`success-img-${props.file.id}`,props.file)"
                   />
                   <input
                     type="hidden"
                     name="product[pic][]"
-                    :value="`http://s1.jiguo.com/${props.respon.field}/640`"
+                    :value="`//s2.jiguo.com/${props.respon.field}/640`"
                   />
                 </div>
                 <div @click="insertItem('success-img-' + props.file.id,props.file)" class="item-insert hover-show">
@@ -208,7 +208,7 @@
 			itemRotation(id, file) {
 				file.rotate = ((file.rotate || 0) + 90) % 360;
 				var logo = '|watermark/1/image/aHR0cDovL3dhdGVybWFyay0xMjUyMTA2MjExLnBpY3NoLm15cWNsb3VkLmNvbS8xNDk3OTQyODk2MjgzNTk0OGNiNzA1NGViZi5wbmc=/gravity/southeast/dx/20/dy/20';
-				var src = 'http://s1.jiguo.com/' + file.respon.field + '?imageView2/2/w/640/q/100|imageMogr2/rotate/' + file.rotate + logo;
+				var src = '//s2.jiguo.com/' + file.respon.field + '?imageView2/2/w/640/q/100|imageMogr2/rotate/' + file.rotate + logo;
 				this.loadingImageMask(src, this.$refs[id][0], file.respon.type)
 			},
 			loadingImageMask(src, img, type) {
@@ -237,7 +237,7 @@
 				if (currentImg.data('first-loading')) {
 					return
 				}
-				var src = 'http://s1.jiguo.com/' + file.respon.field + '/logo';
+				var src = '//s2.jiguo.com/' + file.respon.field + '/logo';
 				$(currentImg).attr({
 					'catchremote': true,
 					'src': src,

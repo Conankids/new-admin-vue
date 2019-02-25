@@ -37,7 +37,8 @@ export function editorAddEventListener(vm, editor) {
 				return
 			}
 			//打上红色边框
-			if ($(this).attr('src').indexOf('s1.jiguo.com') === -1) {
+			if ($(this).attr('src').indexOf('s1.jiguo.com') === -1 &&
+        $(this).attr('src').indexOf('s2.jiguo.com') === -1) {
 				$(this).addClass('edui-image-not-jiguo-zdm-addr');
 			}
 		});

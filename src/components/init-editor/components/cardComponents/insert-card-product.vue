@@ -100,7 +100,7 @@
             <li v-for="item in props.data" :item="item" :key="item.id">
               <div class="loading__item">
                 <div class="loading__left">
-                  <img :src="`http://s1.jiguo.com/${item.cover}/230x230`"/>
+                  <img :src="`//s2.jiguo.com/${item.cover}/230x230`"/>
                 </div>
                 <div class="loading__right">
                   <div class="title line2" v-html="item.name"></div>
