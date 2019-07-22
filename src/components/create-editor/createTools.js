@@ -108,6 +108,10 @@ export function editorBindScrollFun(vm, editor) {
 	if (!vm['ToolBarBox'] || !vm['ToolBarBox'].length) {
 		return
 	}
+	//父级高度自适应
+	vm['ToolBarBox'].parent().css({
+    height: vm['ToolBarBox'].height()
+  })
 	if (editor.fullScreen) {
 		vm['EditorWrap'].addClass('full__screen')
 		vm['ToolBarInner'].css({

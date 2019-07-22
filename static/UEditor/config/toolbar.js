@@ -37,8 +37,11 @@ const tooBar = [
     'insert_image',
     'insert_card',
     '|',
+    'quick_layout',
+    'highlighting_keywords',
     'remote_catch',
     'drafts',
+    '|',
     'full_screen'
   ]
 ]

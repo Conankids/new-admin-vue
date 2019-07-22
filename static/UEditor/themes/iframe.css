@@ -104,6 +104,12 @@
   color: #B3B3B3;
 }
 
+/*关键词背景高亮*/
+.__editor__container__ .highlighting{
+  color: #000;
+  background-color: #F66039;
+}
+
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 .__editor__container__::-webkit-scrollbar {
   width: 3px;

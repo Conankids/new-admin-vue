@@ -33,10 +33,14 @@ html.editor-full-screen {
       height: 100%;
     }
 
+    .edui-toolbar{
+      padding: 10px 0px;
+    }
+
     .edui-separator-wrap {
       display: inline-block;
       font-size: 0;
-      padding: 10px 0px;
+      //padding: 10px 0px;
       position: relative;
       &:after {
         content: '';
@@ -348,6 +352,26 @@ html.editor-full-screen {
     }
     .edui-state-disabled .edui-icon {
       background-image: url(./new-icon/insert_card_hide.svg);
+    }
+  }
+
+  .edui-for-highlighting_keywords {
+    .edui-icon {
+      background-size: 18px auto;
+    }
+    .edui-icon,
+    .edui-state-checked .edui-icon {
+      background-image: url(./new-icon/highlighting_keywords.svg);
+    }
+  }
+
+  .edui-for-quick_layout {
+    .edui-icon {
+      background-size: 18px auto;
+    }
+    .edui-icon,
+    .edui-state-checked .edui-icon {
+      background-image: url(./new-icon/quick_layout.svg);
     }
   }
 

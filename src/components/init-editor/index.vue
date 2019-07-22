@@ -37,6 +37,12 @@
       :visibile.sync="InsertLinkVisibile"
       @insert:html="InsertHtml"
     />
+    <highlighting-Keywords
+      v-if="filtersToolbars('highlighting_keywords')"
+      :visibile.sync="HighlightingKeywordsVisibile"
+      @insert:html="InsertHtml"
+    />
+
     <InserUserInfo
       v-if="userInfo"
       :userInfo="userInfo"
@@ -52,6 +58,7 @@
   import InertLink from './components/insert-link.vue'
   import ProductList from './product-list'
   import InserUserInfo from './components/insert-userInfo'
+  import HighlightingKeywords from './components/highlinghting-keywords'
 
   import {flatProcessing} from '../../common/flatProcessing'
   import {getFormatHtmlToJSON} from '../../common/getFormatHtmlToJSON'
@@ -88,7 +95,8 @@
         InsertVideoVisibile: false,
         InsertImageVisibile: false,
         InsertCardVisibile: false,
-        InsertLinkVisibile: false
+        InsertLinkVisibile: false,
+        HighlightingKeywordsVisibile: false
       }
     },
     components: {
@@ -96,7 +104,8 @@
       InertImage,
       InertCard,
       InertLink,
-      InserUserInfo
+      InserUserInfo,
+      HighlightingKeywords
     },
     methods: {
       editorReady(editor) {
@@ -186,6 +195,10 @@
           }
           case 'new_link': {
             this.InsertLinkVisibile = true
+            break
+          }
+          case 'highlighting_keywords': {
+            this.HighlightingKeywordsVisibile = true
             break
           }
         }

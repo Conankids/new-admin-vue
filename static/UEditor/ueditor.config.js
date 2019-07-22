@@ -72,6 +72,8 @@ window.UEDITOR_CONFIG = {
       'title_h3': '小标题','new_link':'超链接',
       'remote_catch': '抓取图片',
       'insert_card': '插入卡片',
+      'highlighting_keywords': '关键词高亮',
+      'quick_layout': '一键排版',
       'simpleupload': '插入单图',
       'insert_image': '插入多图',
       'full_screen': '全屏',

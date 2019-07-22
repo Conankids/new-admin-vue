@@ -97,7 +97,10 @@
 					editorBindToolBarTips(vm, this)
 					//添加快捷键
 					bindKeyMap(vm, this)
+          //执行编辑器初始化回调
 					UE.readyCallBack && UE.readyCallBack()
+          //把编辑器暴露给全局以供调用
+          window['myEditor'] = this
 				}
 			})
 			vm.editor.fullScreen = this.fullScreen
