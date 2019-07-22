@@ -231,12 +231,22 @@ UE.plugins['my_style'] = function () {
          if(next && next.nodeName === 'P' && !isLine(next)){
            needWhiteLineList.push(ci)
          }
+
+         // 删除非空白行中的br换行
+         var ciNodes = ci.childNodes
+         for(var j = ciNodes.length - 1; j >= 0; j--){
+           var item = ciNodes[j]
+           if(domUtils.isBr(item)){
+             domUtils.remove(item)
+           }
+         }
        }
 
        // 删除最后一行空行
        if(i === nodes.length && isLine(ci)){
          whiteLineList.push(ci)
        }
+
      }
      //删除空行
       whiteLineList.forEach(item=>{
