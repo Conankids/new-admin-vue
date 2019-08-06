@@ -38,10 +38,13 @@
 						'simpleupload',
 						'insert_image',
 						'insert_card',
-						'|',
-						'remote_catch',
-						'drafts',
-						'full_screen'
+            '|',
+            'quick_layout',
+            'highlighting_keywords',
+            'remote_catch',
+            'drafts',
+            '|',
+            'full_screen'
 					]
 				]
 			}
