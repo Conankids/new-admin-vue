@@ -301,6 +301,10 @@
 						code: 'c20ad4d76fe97759aa27a0c99bff6710',
 						action: 'uploadimage'
 					},
+                    //格式限制
+                    attrs: {
+                      accept: ['.jpg','.jpeg','.png','.gif']
+                    },
 					fileParameterName: 'upfile',
 					chunkSize: 8 * 1024 * 1024,
 					progressCallbacksInterval: 300

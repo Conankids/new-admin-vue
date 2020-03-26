@@ -158,10 +158,9 @@ UE.plugins['my_style'] = function () {
   *     1、清空开头空格格式
   *     2、文章开头设置小标题：上不空行
   *     3、小标题位置，上下强制不空行
-  *     4、文字段落/文字段落 之间空一行
-  *     5、文字段落/图片 之间空一行
-  *     6、图片/图片 之间空一行
-  *     7、删除文章最后的空行
+  *     4、文字段落/图片 之间空一行
+  *     5、图片/图片 之间空一行
+  *     6、删除文章最后的空行
   * */
 
   me.commands['quick_layout'] = {
@@ -205,32 +204,13 @@ UE.plugins['my_style'] = function () {
         while(isLine(next)){
           tmpNode = next
           next = tmpNode.nextSibling
-
           rightWhiteLineList.push(tmpNode)
         }
         whiteLineList = whiteLineList.concat(rightWhiteLineList)
       }
 
-      //合并段落/段落之间的空行
+       //合并段落/段落之间的空行
        if(ci.nodeName === 'P' && !isLine(ci)){
-         next = ci.nextSibling
-         var mergeWhiteLineList = []
-         while(isLine(next)){
-           tmpNode = next
-           next = tmpNode.nextSibling
-           if(isLine(next)){
-             mergeWhiteLineList.push(tmpNode)
-           }
-         }
-         whiteLineList = whiteLineList.concat(mergeWhiteLineList)
-       }
-
-     // 文字段落/文字段落 之间空一行
-       if(ci.nodeName === 'P' && !isLine(ci)){
-         next = ci.nextSibling
-         if(next && next.nodeName === 'P' && !isLine(next)){
-           needWhiteLineList.push(ci)
-         }
 
          // 删除非空白行中的br换行
          var ciNodes = ci.childNodes
@@ -240,6 +220,40 @@ UE.plugins['my_style'] = function () {
              domUtils.remove(item)
            }
          }
+
+         next = ci.nextSibling
+         var prevChildCount = domUtils.getChildCount(ci,function (node) {
+           return node.nodeType == 1 && !domUtils.isBr(node)
+         })
+         var nextChildCount = 0
+         var mergeWhiteLineList = []
+
+         //添加空行
+         if(next && next.nodeName === 'P' && !isLine(next)){
+           nextChildCount = domUtils.getChildCount(next,function (node) {
+             return node.nodeType == 1 && !domUtils.isBr(node)
+           })
+           if(prevChildCount || nextChildCount){
+             needWhiteLineList.push(ci)
+           }
+         }
+
+         //删除多余的空行
+         while(isLine(next)){
+           tmpNode = next
+           next = tmpNode.nextSibling
+           if(isLine(next)){
+             mergeWhiteLineList.push(tmpNode)
+           }else if(next){
+             nextChildCount = domUtils.getChildCount(next,function (node) {
+               return node.nodeType == 1
+             })
+             if(!(nextChildCount || prevChildCount)){
+               mergeWhiteLineList.push(tmpNode)
+             }
+           }
+         }
+         whiteLineList = whiteLineList.concat(mergeWhiteLineList)
        }
 
        // 删除最后一行空行
