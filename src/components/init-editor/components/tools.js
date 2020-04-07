@@ -105,7 +105,12 @@ export function convertUrlToIframe(url) {
 		url = 'http://player.youku.com/embed/' + RegExp.$1
 	} else if (url.match("bilibili.com")) {
 		url.match(/https?:\/\/(?:www\.)?bilibili.com\/video\/av([\da-zA-Z]+)/);
-		url = 'http://player.bilibili.com/player.html?aid=' + RegExp.$1;
+		if(RegExp.$1){
+      url = 'http://player.bilibili.com/player.html?aid=' + RegExp.$1;
+    }else{
+      url.match(/https?:\/\/(?:www\.)?bilibili.com\/video\/([\da-zA-Z]+)/);
+      url = 'http://player.bilibili.com/player.html?bvid=' + RegExp.$1;
+    }
 	}
 	return url
 }
