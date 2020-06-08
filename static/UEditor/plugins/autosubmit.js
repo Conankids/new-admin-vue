@@ -18,7 +18,7 @@
 UE.plugin.register('autosubmit',function(){
     return {
         shortcutkey:{
-            "autosubmit":"ctrl+13" //手动提交
+            // "autosubmit":"ctrl+13" //手动提交
         },
         commands:{
             'autosubmit':{

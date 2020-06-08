@@ -33,6 +33,10 @@ module.exports = [
 	{
 		name: 'article',
 		main: './src/pages/article/main.js',
+    output: {
+      libraryTarget: 'umd',
+      library: '[name]',
+    },
 		options: {
 			// filename: path.resolve(__dirname, '../../zdm/protected/modules/admin/views/article/_editor.php'),
 			filename: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/zdm/protected/modules/admin/views/article/_editor.php'),
@@ -46,11 +50,11 @@ module.exports = [
 		},
 		//不允许集体打包方案
 		notpackage: true,
-		externals: {
-			'vue': 'Vue',
-			'vuex': 'Vuex',
-			'vue-router': 'VueRouter'
-		},
+		// externals: {
+		// 	'vue': 'Vue',
+		// 	'vuex': 'Vuex',
+		// 	'vue-router': 'VueRouter'
+		// },
 		subModel: {
 			'UEditor': './static/UEditor/index.js'
 		}

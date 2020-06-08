@@ -121,7 +121,8 @@ const plugins = [
 	// prevent vendor hash from being updated whenever app bundle is updated
 	new webpack.optimize.CommonsChunkPlugin({
 		name: 'manifest',
-		chunks: ['vendor']
+    minChunks: Infinity
+		// chunks: ['vendor']
 	}),
 	// copy custom static assets
 	new CopyWebpackPlugin([
@@ -177,4 +178,6 @@ if (config.build.bundleAnalyzerReport) {
 	var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
+// console.log(webpackConfig)
+// return
 module.exports = webpackConfig
