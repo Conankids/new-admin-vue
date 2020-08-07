@@ -108,8 +108,8 @@ export function convertUrlToIframe(url) {
 		if(RegExp.$1){
       url = 'http://player.bilibili.com/player.html?aid=' + RegExp.$1;
     }else{
-      url.match(/https?:\/\/(?:www\.)?bilibili.com\/video\/([\da-zA-Z]+)/);
-      url = 'http://player.bilibili.com/player.html?bvid=' + RegExp.$1;
+      url.match(/https?:\/\/(.*?)\.bilibili.com\/video\/([\da-zA-Z]+)/);
+      url = 'http://player.bilibili.com/player.html?bvid=' + RegExp.$2;
     }
 	}
 	return url
