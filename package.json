@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "build": "cross-env NODE_ENV=production node build/build.js",
+    "build:jenkins": "cross-env NODE_ENV=production ENV_CONFIG=jenkins node build/build.js",
+    "build:jmc": "cross-env NODE_ENV=production ENV_CONFIG=jmc node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
   },
   "dependencies": {

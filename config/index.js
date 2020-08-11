@@ -2,13 +2,15 @@
 var path = require('path')
 var v = 'v1.0.0'
 
-module.exports = {
+var env_config = require('./env.config')
+process.env.ENV_CONFIG = process.env.ENV_CONFIG || ''
+var config = {
   page: require('./page.config'),
   build: {
-    env: require('./prod.env'),
-		// assetsRoot: path.resolve(__dirname, '../../cdn/admin@2.0'),
-		assetsRoot: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/cdn/admin@2.0'),
-		assetsSubDirectory: '',
+    ...env_config,
+		assetsRoot: path.resolve(__dirname, env_config[process.env.ENV_CONFIG + 'Env']['ASSETS_ROOT_PATH']),
+		// assetsRoot: path.resolve(__dirname, '../../../jiguozhidx/jiguo-dev/cdn/admin@2.0'),
+		assetsSubDirectory: env_config[process.env.ENV_CONFIG + 'Env']['ASSETS_SUB_DIRECTORY'] || '',
 		assetsPublicPath: 'http://cdn.jiguo.com/admin@2.0/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
@@ -24,7 +26,7 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report
   },
   dev: {
-    env: require('./dev.env'),
+    env: require('./env.config/dev.env'),
     port: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: '',
@@ -90,3 +92,6 @@ module.exports = {
     cssSourceMap: false
   }
 }
+// console.log(config.page)
+// return
+module.exports = config

@@ -1,6 +1,6 @@
 require('./check-versions')()
 
-process.env.NODE_ENV = 'production'
+// process.env.NODE_ENV = 'production'
 
 var ora = require('ora')
 var rm = require('rimraf')
@@ -10,7 +10,8 @@ var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.prod.conf')
 
-var spinner = ora('building for production...')
+// var spinner = ora('building for production...')
+const spinner = ora('building for ' + process.env.NODE_ENV + ' of ' + process.env.ENV_CONFIG + ' production...')
 spinner.start()
 
 function run() {
