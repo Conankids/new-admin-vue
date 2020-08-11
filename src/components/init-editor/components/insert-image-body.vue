@@ -319,8 +319,8 @@
 			selectedList(newVal) {
 				this.$emit('input', newVal)
 			},
-			visible() {
-				if ($(this.$refs['uploader-list-ul']).find('li').length <= 1) {
+			visible(newVal) {
+				if (newVal && $(this.$refs['uploader-list-ul']).find('li').length <= 1) {
 					setTimeout(() => {
 						$(this.$refs['uploader-btn'].$el).trigger('click')
 					}, 240)
