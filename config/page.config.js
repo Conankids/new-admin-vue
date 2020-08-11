@@ -66,12 +66,12 @@ module.exports = [
     },
     //不允许集体打包方案
     notpackage: true,
-    externals: {
-      jquery: 'jquery',
+    // externals: {
+      // jquery: 'jquery',
     //   'vue': 'Vue',
     //   'vuex': 'Vuex',
     //   'vue-router': 'VueRouter'
-    },
+    // },
     subModel: {
       'UEditor': './static/UEditor/index.js'
     }
@@ -146,9 +146,6 @@ module.exports = [
     },
     //不允许集体打包方案
     notpackage: true,
-    externals: {
-      jquery: 'jquery',
-    },
     subModel: {
       'UEditor': './static/UEditor/index.js'
     }
@@ -173,9 +170,6 @@ module.exports = [
     },
     //不允许集体打包方案
     notpackage: true,
-    externals: {
-      jquery: 'jquery',
-    },
     subModel: {
       'UEditor': './static/UEditor/index.js'
     }
