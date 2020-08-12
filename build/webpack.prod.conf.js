@@ -10,23 +10,28 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
-	? require('../config/test.env')
-	: config.build.env
-
-var config = require('../config')
+  ? require('../config/env.config/test.env')
+  : JSON.parse(JSON.stringify(config.build[process.env.ENV_CONFIG + 'Env']))
+//definePlugin的值必须是字符串
+Object.keys(env).map(k => {
+  if(!~env[k].indexOf('"')){
+    env[k] = JSON.stringify(env[k])
+  }
+})
+// var config = require('../config')
 
 var HtmlWebpackPluginDefaultConfig = {
-	inject: true,
-	removeAttributeQuotes: false,
-	minify: {
-		removeComments: true,
-		collapseWhitespace: true,
-		removeAttributeQuotes: false
-		// more options:
-		// https://github.com/kangax/html-minifier#options-quick-reference
-	},
-	// necessary to consistently work with multiple chunks via CommonsChunkPlugin
-	chunksSortMode: 'dependency'
+  inject: true,
+  removeAttributeQuotes: false,
+  minify: {
+    removeComments: true,
+    collapseWhitespace: true,
+    removeAttributeQuotes: false
+    // more options:
+    // https://github.com/kangax/html-minifier#options-quick-reference
+  },
+  // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+  chunksSortMode: 'dependency'
 }
 
 var arguments = process.argv.length > 2 ? process.argv.slice(2) : []
@@ -34,150 +39,150 @@ var HtmlWebpackPluginConfig = []
 var completeModule = []
 
 if (arguments.length) {
-	config.page.forEach((item) => {
-		if (completeModule.indexOf(item) !== -1) return
-		arguments.forEach((name) => {
-			if (completeModule.indexOf(item) !== -1) return
-			if (item.name == name) {
-				completeModule.push(item)
-			}
-		})
-	})
+  config.page.forEach((item) => {
+    if (completeModule.indexOf(item) !== -1) return
+    arguments.forEach((name) => {
+      if (completeModule.indexOf(item) !== -1) return
+      if (item.name == name) {
+        completeModule.push(item)
+      }
+    })
+  })
 } else {
-	completeModule = config.page.filter((item) => {
-		if (item.notpackage) {
-			return false
-		}
-		return true
-	})
+  completeModule = config.page.filter((item) => {
+    if (item.notpackage) {
+      return false
+    }
+    return true
+  })
 }
 if (!completeModule.length) {
-	process.exit(0)
+  process.exit(0)
 }
 
 completeModule.forEach((item) => {
-	item.options.chunks = ['vendor', 'manifest', item.name]
-	if (item.subModel && Object.prototype.toString.call(item.subModel) === '[object Object]') {
-		for (var i in item.subModel) {
-			item.options.chunks.push(i)
-		}
-	}
-	var htmlPlugin = new HtmlWebpackPlugin(merge(HtmlWebpackPluginDefaultConfig, item.options))
-	HtmlWebpackPluginConfig.push(htmlPlugin)
+  item.options.chunks = ['vendor', 'manifest', item.name]
+  if (item.subModel && Object.prototype.toString.call(item.subModel) === '[object Object]') {
+    for (var i in item.subModel) {
+      item.options.chunks.push(i)
+    }
+  }
+  var htmlPlugin = new HtmlWebpackPlugin(merge(HtmlWebpackPluginDefaultConfig, item.options))
+  HtmlWebpackPluginConfig.push(htmlPlugin)
 })
 
 var externals = {}
 var externals_env = {}
 if (completeModule.length == 1 && completeModule[0].externals) {
-	externals = completeModule[0].externals
+  externals = completeModule[0].externals
 }
 for (let i in externals) {
-	externals_env[i] = '"' + externals[i] + '"'
+  externals_env[i] = '"' + externals[i] + '"'
 }
 
 const plugins = [
-	// http://vuejs.github.io/vue-loader/en/workflow/production.html
-	new webpack.DefinePlugin({
-		'process.env': merge(externals_env, env)
-	}),
-	new webpack.optimize.UglifyJsPlugin({
-		compress: {
-			warnings: false
-		},
-		sourceMap: true
-	}),
-	// extract css into its own file
-	new ExtractTextPlugin({
-		filename: utils.assetsPath('css/[name].[contenthash].css')
-	}),
-	// Compress extracted CSS. We are using this plugin so that possible
-	// duplicated CSS from different components can be deduped.
-	new OptimizeCSSPlugin({
-		cssProcessorOptions: {
-			safe: true
-		}
-	}),
+  // http://vuejs.github.io/vue-loader/en/workflow/production.html
+  new webpack.DefinePlugin({
+    'process.env': merge(externals_env, env)
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    sourceMap: true
+  }),
+  // extract css into its own file
+  new ExtractTextPlugin({
+    filename: utils.assetsPath('css/[name].[contenthash].css')
+  }),
+  // Compress extracted CSS. We are using this plugin so that possible
+  // duplicated CSS from different components can be deduped.
+  new OptimizeCSSPlugin({
+    cssProcessorOptions: {
+      safe: true
+    }
+  }),
 // generate dist index.html with correct asset hash for caching.
 // you can customize output by editing /index.html
 // see https://github.com/ampedandwired/html-webpack-plugin
-	...HtmlWebpackPluginConfig,
-	// keep module.id stable when vender modules does not change
-	new webpack.HashedModuleIdsPlugin(),
-	// split vendor js into its own file
-	new webpack.optimize.CommonsChunkPlugin({
-		name: 'vendor',
-		minChunks: function (module, count) {
-			// any required modules inside node_modules are extracted to vendor
-			return (
-				module.resource &&
-				/\.js$/.test(module.resource) &&
-				module.resource.indexOf(
-					path.join(__dirname, '../node_modules')
-				) === 0
-			)
-		}
-	}),
-	// extract webpack runtime and module manifest to its own file in order to
-	// prevent vendor hash from being updated whenever app bundle is updated
-	new webpack.optimize.CommonsChunkPlugin({
-		name: 'manifest',
+  ...HtmlWebpackPluginConfig,
+  // keep module.id stable when vender modules does not change
+  new webpack.HashedModuleIdsPlugin(),
+  // split vendor js into its own file
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: function (module, count) {
+      // any required modules inside node_modules are extracted to vendor
+      return (
+        module.resource &&
+        /\.js$/.test(module.resource) &&
+        module.resource.indexOf(
+          path.join(__dirname, '../node_modules')
+        ) === 0
+      )
+    }
+  }),
+  // extract webpack runtime and module manifest to its own file in order to
+  // prevent vendor hash from being updated whenever app bundle is updated
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'manifest',
     minChunks: Infinity
-		// chunks: ['vendor']
-	}),
-	// copy custom static assets
-	new CopyWebpackPlugin([
-	  {
-	    from: path.resolve(__dirname, '../static'),
-	    to: config.build.assetsSubDirectory,
-	    ignore: ['.*']
-	  }
-	])
+    // chunks: ['vendor']
+  }),
+  // copy custom static assets
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, '../static'),
+      to: config.build.assetsSubDirectory,
+      ignore: ['.*']
+    }
+  ])
 ]
 //预渲染配置
 if (completeModule.length <= 1 && completeModule[0].PrerenderSpaPlugin) {
-	plugins.push(completeModule[0].PrerenderSpaPlugin)
+  plugins.push(completeModule[0].PrerenderSpaPlugin)
 }
 
 var webpackConfig = merge(baseWebpackConfig, {
-	module: {
-		rules: utils.styleLoaders({
-			sourceMap: config.build.productionSourceMap,
-			extract: true
-		})
-	},
-	devtool: config.build.productionSourceMap ? '#source-map' : false,
-	output: {
-		path: config.build.assetsRoot,
-		filename: utils.assetsPath('js/[name].[chunkhash].js'),
-		chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-	},
-	externals,
-	plugins
+  module: {
+    rules: utils.styleLoaders({
+      sourceMap: config.build.productionSourceMap,
+      extract: true
+    })
+  },
+  devtool: config.build.productionSourceMap ? '#source-map' : false,
+  output: {
+    path: config.build.assetsRoot,
+    filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+  },
+  externals,
+  plugins
 })
 
 
 if (config.build.productionGzip) {
-	var CompressionWebpackPlugin = require('compression-webpack-plugin')
+  var CompressionWebpackPlugin = require('compression-webpack-plugin')
 
-	webpackConfig.plugins.push(
-		new CompressionWebpackPlugin({
-			asset: '[path].gz[query]',
-			algorithm: 'gzip',
-			test: new RegExp(
-				'\\.(' +
-				config.build.productionGzipExtensions.join('|') +
-				')$'
-			),
-			threshold: 10240,
-			minRatio: 0.8
-		})
-	)
+  webpackConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: new RegExp(
+        '\\.(' +
+        config.build.productionGzipExtensions.join('|') +
+        ')$'
+      ),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
 }
 
 if (config.build.bundleAnalyzerReport) {
-	var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
-// console.log(webpackConfig)
+// console.log(externals)
 // return
 module.exports = webpackConfig

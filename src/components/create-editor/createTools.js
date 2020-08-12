@@ -108,9 +108,10 @@ export function editorBindScrollFun(vm, editor) {
 	if (!vm['ToolBarBox'] || !vm['ToolBarBox'].length) {
 		return
 	}
+	var ToolBarBoxHeight = vm['ToolBarBox'].height()
 	//父级高度自适应
 	vm['ToolBarBox'].parent().css({
-    height: vm['ToolBarBox'].height()
+    height: ToolBarBoxHeight
   })
 	if (editor.fullScreen) {
 		vm['EditorWrap'].addClass('full__screen')
@@ -137,7 +138,7 @@ export function editorBindScrollFun(vm, editor) {
 			var posFix = scrollTop - offset.top - vm['EditorWrap'].height() + 60
 			if (posFix >= 0) {
 				vm['ToolBarBox'].css({
-					top: -(posFix > 60 ? 60 : posFix)
+					top: -(posFix > ToolBarBoxHeight ? ToolBarBoxHeight : posFix)
 				})
 			}
 		} else {
