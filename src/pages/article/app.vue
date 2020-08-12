@@ -21,11 +21,16 @@
   }
 </style>
 
+
+
+
+
 <template>
   <div class="page">
     <!--<loading v-show="show"/>-->
     <div class="content-wrap">
       <article-edit/>
+      <slot name=""></slot>
     </div>
   </div>
 </template>

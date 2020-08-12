@@ -9,7 +9,7 @@
   }
 </script>
 <style lang="scss">
-  @import "../../style/scss/helpers/functions";
+  @import "../../style/scss/helpers/functions.scss";
 
   .page-loading {
     position: fixed;

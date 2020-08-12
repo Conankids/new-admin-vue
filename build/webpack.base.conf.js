@@ -67,16 +67,19 @@ module.exports = {
 			: config.dev.assetsPublicPath
 	}, completeModule.length == 1 ? completeModule[0].output || {} : {}),
 	resolve: {
-		extensions: ['.min.js', '.js', '.vue', '.json'],
+		extensions: ['.min.js', '.js', '.vue', '.json','.css','.scss'],
 		alias: {
 			'vue$': 'vue/dist/vue.runtime.esm.js',
+			// 'vue$': 'vue/dist/vue.esm.js',
 			'@': resolve('src'),
+			'components': resolve('src/components'),
 		}
 	},
 	module: {
 		rules: [
 			{
 				test: /\.vue$/,
+				// loader: 'vue-loader',
 				loader: 'vue-loader',
 				options: vueLoaderConfig
 			},
@@ -92,6 +95,24 @@ module.exports = {
 				exclude: {
 					test: [/\.min\.(js|css)$/]
 				}
+			},
+			// {
+			// 	test: /\.scss$/,
+			// 	loader: 'style!css!sass'
+			// },
+			{
+				test: /\.scss$/,
+				use: [
+					{
+						loader: 'style-loader' // creates style nodes from JS strings
+					},
+					{
+						loader: 'css-loader' // translates CSS into CommonJS
+					},
+					{
+						loader: 'sass-loader' // compiles Sass to CSS
+					}
+				]
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg|ico)(\?.*)?$/,
