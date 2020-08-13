@@ -26,7 +26,7 @@ npm run dev page
     },
 
 # 页面单独打包 (可同时打包多个页面用空格隔开)
-npm run build page
+npm run build page1 page2 page3
 
 # 打包所有页面，参数在config/page.config.js以及config/index.js下设置
 npm run build
