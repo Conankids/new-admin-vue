@@ -338,7 +338,9 @@
 				this.remote_catch_loading = false
 			},
 			message(e) {
-				var data = e.data
+
+				var {data} = e
+
 				if (typeof data != 'string') return;
 
 				data = data.replace(/^\s+|\s+$/g, '')
@@ -346,6 +348,8 @@
 					return
 				}
 				var sendData = JSON.parse(data);
+        //防止本页面的postMessage事件干扰
+				if(!('unique_id' in sendData)) return
 
 				this.ruleForm.type = !isNaN(parseInt(sendData.type)) ? parseInt(sendData.type) : 0
 				this.ruleForm.url = sendData.url || ''

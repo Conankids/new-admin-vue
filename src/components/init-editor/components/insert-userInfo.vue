@@ -15,7 +15,7 @@
     },
     methods: {
       inserUserInfo() {
-        const html = `<p><strong>本文作者极果${this.userInfo.groupName}：${this.userInfo.userName}</strong></p>`
+        const html = `<p><br></p><p><strong>本文作者极果${this.userInfo.groupName}：${this.userInfo.userName}</strong></p>`
         this.$emit('insert:userInfo', html)
       }
     }
